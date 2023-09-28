@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Nav from './Nav'
 import { useNavigate } from 'react-router-dom'
 import Footer from './Footer'
@@ -6,40 +6,51 @@ import { useDispatch } from 'react-redux';
 import { login } from '../features/Slices';
 import ApiService from '../service/apiServices';
 import { useForm } from "react-hook-form";
+import { postLogin } from '../service/apiServices';
 
 const SignIn = () => {
-
-
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(undefined);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const dispatch = useDispatch();
  const navigate = useNavigate();
  const { register, handleSubmit } = useForm();
- const onSubmit = async (data) => {
+ const onSubmit = async (data, e) => {
+  e.preventDefault();
+  setName(data.email);
+  setPassword(data.password);
+  setRememberMe(data.rememberMe);
 
-  console.log(data.email)
-    setName(data.email);
-    setPassword(data.password);
-    setRememberMe(data.rememberMe);
-    console.log(rememberMe, name, password)
-    console.log(data)
-    
-    const resultOfFetch = await ApiService.postLogin(data);
-    if(resultOfFetch.isLoggedIn){
-      dispatch(login({
+
+  // Renvoie le token et isLoggedIn
+  const resultOfFetch = await postLogin(data);
+
+  // Renvoie le prénom et nom du profil
+  const resultOfFetchProfile = await ApiService.getProfile(data);
+
+  let firstName = resultOfFetchProfile.firstName;
+  let lastName = resultOfFetchProfile.lastName;
+  
+  if (resultOfFetch.isLoggedIn) {
+    dispatch(
+      login({
         name: name,
-        rememberMe : rememberMe,
+        rememberMe: rememberMe,
         password: password,
+        firstName: firstName,
+        lastName: lastName,
         loggedIn: true,
-      }))
-      navigate('/user')
-    }
-    else{
-      alert(resultOfFetch.error)
-    }
+      })
+    );
+    // Store token and userid in localStorage
+    localStorage.setItem('token', resultOfFetch.token);
+    
+    navigate('/user');
+  } else {
+    alert(resultOfFetch.error);
   }
+};
   return (
     <>
     <div className='signIn'>

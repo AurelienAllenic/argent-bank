@@ -101,7 +101,61 @@ body {
   margin-bottom: 0;
   font-size: 0.9rem;
 }
+.icon-nav{
+  margin-right: 5px;
+}
 
+.container_changeName{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5% 5% 5%;
+}
+
+.container_inputs {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.container_inputs input {
+  border-radius: 2px;
+  border: 0.5px solid grey;
+  padding: 2%;
+  width: 90%;
+}
+.container_inputs input::placeholder {
+  opacity: 0.7;
+  font-weight: 500;
+}
+.container_buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 5% 0 0 0;
+}
+
+.button_save {
+  padding: 0.5rem 2rem;
+  border: 1.5px solid #00bc77;
+  color: #00bc77;
+  font-weight: 600;
+  border-radius: 2px;
+  position: relative;
+  left: 20.5%;
+}
+
+.button_cancel {
+  padding: 0.5rem 2rem;
+  border: none;
+  border-radius: 2px;
+  position: relative;
+  left: -17.5%;
+  border: 1.5px solid #00bc77;
+  color: #00bc77;
+}
 @media (min-width: 920px) {
   .hero {
     height: 400px;
@@ -264,6 +318,10 @@ body {
 .header {
   color: #fff;
   margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+.header h1{
+  padding-top: 2rem;
 }
 
 .transaction-button {

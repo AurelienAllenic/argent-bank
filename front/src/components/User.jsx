@@ -1,15 +1,54 @@
-import React from 'react'
-import Nav from './Nav'
-import Footer from './Footer'
+import React, { useEffect, useState } from 'react';
+import Nav from './Nav';
+import Footer from './Footer';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/Slices';
+import  ApiService  from '../service/apiServices';
+import ChangeName from './ChangeName';
+
 const User = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [isChangingName, setIsChangingName] = useState(false);
+
+  const updateDisplayedName = (newFirstName, newLastName) => {
+    setFirstName(newFirstName);
+    setLastName(newLastName);
+  };
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    ApiService.getInfosProfile(token)
+      .then(resultOfFetchProfile => {
+        setFirstName(resultOfFetchProfile.firstName);
+        setLastName(resultOfFetchProfile.lastName);
+      })
+      .catch(error => {
+        // Handle any errors that occur during the API call
+        console.error(error);
+      });
+  }, []);
+  function handleChangeName() {
+    setIsChangingName(!isChangingName);
+  }
+
   return (
     <div className='user'>
       <Nav />
       <main className="main bg-dark">
-      <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
-        <button className="edit-button">Edit Name</button>
-      </div>
+        <div className="header">
+          <h1>Welcome back<br />{firstName} {lastName}!</h1>
+          <button className="edit-button" onClick={handleChangeName}>Edit Name</button>
+        </div>
+      {isChangingName ? <ChangeName
+  firstName={firstName}
+  lastName={lastName}
+  setIsChangingName={setIsChangingName}
+  updateDisplayedName={updateDisplayedName}
+/> :null
+
+      }
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
         <div className="account-content-wrapper">
