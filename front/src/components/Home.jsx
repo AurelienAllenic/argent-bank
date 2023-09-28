@@ -1,13 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Nav from './Nav'
 import Chat from '../img/icon-chat.png'
 import Money from '../img/icon-money.png'
 import Security from '../img/icon-security.png'
 import Footer from './Footer'
+import ApiService from '../service/apiServices'
 const Home = () => {
+  const [firstName, setFirstName] = useState('');
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token){
+      ApiService.getInfosProfile(token)
+      .then(resultOfFetchProfile => {
+        setFirstName(resultOfFetchProfile.firstName);
+      }).catch(error => {
+        console.log(error)
+      });
+    } 
+  }, []);
+
   return (
     <div className='home'>
-      <Nav />
+    {firstName !== '' ? (
+    <Nav firstName={firstName} />
+      ) : (
+    <Nav />
+      )}
       <main>
       <div className="hero">
         <section className="hero-content">

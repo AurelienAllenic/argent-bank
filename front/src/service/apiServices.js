@@ -24,7 +24,9 @@ const ApiService = {
         let lastName = res.data.body.lastName;
         console.log(firstName, lastName);
         return { isLoggedIn: true, firstName, lastName };
-      });
+      }).catch((err) => {
+        
+      })
   },
 
   updateProfile: (data) => {

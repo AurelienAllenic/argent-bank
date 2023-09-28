@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Nav from './Nav'
 import { useNavigate } from 'react-router-dom'
 import Footer from './Footer'
@@ -12,16 +12,29 @@ const SignIn = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [firstName, setFirstName] = useState('');
 
   const dispatch = useDispatch();
  const navigate = useNavigate();
- const { register, handleSubmit } = useForm();
+ const { register, handleSubmit } = useForm();  
+ 
+ useEffect(() => {
+  const token = localStorage.getItem('token');
+  if(token){
+    ApiService.getInfosProfile(token)
+    .then(resultOfFetchProfile => {
+      setFirstName(resultOfFetchProfile.firstName);
+    }).catch(error => {
+      console.log(error)
+    });
+  } 
+}, []);
+
  const onSubmit = async (data, e) => {
   e.preventDefault();
   setName(data.email);
   setPassword(data.password);
   setRememberMe(data.rememberMe);
-
 
   // Renvoie le token et isLoggedIn
   const resultOfFetch = await postLogin(data);
@@ -54,7 +67,11 @@ const SignIn = () => {
   return (
     <>
     <div className='signIn'>
-      <Nav />
+    {firstName !== '' ? (
+  <Nav firstName={firstName} />
+) : (
+  <Nav />
+)}
         <main className="main bg-dark">
           <section className="sign-in-content">
             <i className="fa fa-user-circle sign-in-icon"></i>

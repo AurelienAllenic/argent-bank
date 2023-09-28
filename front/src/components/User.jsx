@@ -35,7 +35,7 @@ const User = () => {
 
   return (
     <div className='user'>
-      <Nav />
+      <Nav firstName={firstName} />
       <main className="main bg-dark">
         <div className="header">
           <h1>Welcome back<br />{firstName} {lastName}!</h1>
