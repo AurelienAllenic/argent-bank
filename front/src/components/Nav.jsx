@@ -9,7 +9,7 @@ const Nav = ({ firstName }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-  const isSigninPage = location.pathname === '/sign-in';
+  const isSigninPage = location.pathname === '/login';
   const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -23,7 +23,7 @@ const Nav = ({ firstName }) => {
     e.preventDefault();
     localStorage.removeItem('token');
     dispatch(logout());
-    navigate('/sign-in');
+    navigate('/login');
     window.location.reload();
   };
 
@@ -39,7 +39,7 @@ const Nav = ({ firstName }) => {
       </Link>
       <div>
         {isHomePage && isLoggedIn === false ? (
-          <Link className="main-nav-item" to="/sign-in">
+          <Link className="main-nav-item" to="/login">
             <i className="fa fa-user-circle icon-nav"></i>
             Sign In
           </Link>
@@ -47,13 +47,13 @@ const Nav = ({ firstName }) => {
           <div>
             <Link
               className="main-nav-item"
-              to="/sign-in"
+              to="/login"
               onClick={(e) => handleLogout(e)}
             >
               <i className="fa fa-sign-out icon-nav" aria-hidden="true"></i>
               Sign Out
             </Link>
-            <Link className="main-nav-item" to="/user">
+            <Link className="main-nav-item" to="/profile">
               <i className="fa fa-user-circle icon-nav"></i>
               {firstName}
             </Link>

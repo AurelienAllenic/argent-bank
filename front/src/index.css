@@ -1,3 +1,30 @@
+/* Styles for the 404 page */
+
+.error{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.link-error{
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  font-size: 20px;
+  border: 1px solid black;
+  padding: 1%;
+  border-radius: 15px;
+}
+.link-error:hover{
+  background-color: black;
+  color: white;
+  border: 1px solid transparent;
+  transition: all ease 0.6s;
+  transition-delay: 0.1s;
+}
+
 /* CSS FROM THE GITHUB REPO */
 
 html {

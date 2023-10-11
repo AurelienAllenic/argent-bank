@@ -8,7 +8,7 @@ import ApiService from '../service/apiServices';
 import { useForm } from "react-hook-form";
 import { postLogin } from '../service/apiServices';
 
-const SignIn = () => {
+const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -59,7 +59,7 @@ const SignIn = () => {
     // Store token and userid in localStorage
     localStorage.setItem('token', resultOfFetch.token);
     
-    navigate('/user');
+    navigate('/profile');
   } else {
     alert(resultOfFetch.error);
   }
@@ -116,4 +116,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default Login
