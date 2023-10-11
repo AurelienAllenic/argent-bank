@@ -110,6 +110,313 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/transactions:
+    get:
+      tags:
+        - Transactions Module
+      summary: Returns all transactions, grouped by month and account
+      description: Returns all transactions, grouped by month and account.
+      operationId: getInventory
+      parameters:
+        - name: verification_token
+          in: query
+          description: Verification token
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allTransactionsOfTheRightId:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        listOfTransactions:
+                          type: string
+                        category:
+                          type: string
+                        notes:
+                          type: string
+                        status:
+                          type: string
+                        complete:
+                          type: boolean
+                        transactionType:
+                          type: string
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+      security:
+        - api_key: []
+
+
+  /user/transaction/{id}:
+    get:
+      tags:
+        - Transactions Module
+      summary: Visualization of only one transaction
+      description: Visualization of only one transaction.
+      operationId: getOneTransaction
+      parameters:
+        - name: verification_token
+          in: query
+          description: Verification token
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allTransactionsOfTheRightId:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        listOfTransactions:
+                          type: string
+                        category:
+                          type: string
+                        notes:
+                          type: string
+                        status:
+                          type: string
+                        complete:
+                          type: boolean
+                        transactionType:
+                          type: string
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+      security:
+        - api_key: []
+    post:
+      tags:
+        - Transactions Module
+      summary: Add a new transaction
+      description: Add a new transaction.
+      operationId: addTransaction
+      parameters:
+        - name: verification_token
+          in: query
+          description: Verification token
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: id   # Ajoutez le paramètre "id" ici
+          in: path    # Définissez-le comme un paramètre de chemin
+          description: ID of the transaction
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '201':
+          description: Transaction added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allTransactionsOfTheRightId:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        listOfTransactions:
+                          type: string
+                        category:
+                          type: string
+                        notes:
+                          type: string
+                        status:
+                          type: string
+                        complete:
+                          type: boolean
+                        transactionType:
+                          type: string
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - Transactions Module
+      summary: Delete a transaction
+      description: Delete a transaction.
+      operationId: deleteTransaction
+      parameters:
+        - name: verification_token
+          in: query
+          description: Verification token
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: id   # Ajoutez le paramètre "id" ici
+          in: path    # Définissez-le comme un paramètre de chemin
+          description: ID of the transaction
+          required: true
+          schema:
+            type: integer
+            format: int32    
+        # Add other parameters for the new transaction here
+      responses:
+        '201':
+          description: Transaction deleted succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allTransactionsOfTheRightId:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        listOfTransactions:
+                          type: string
+                        category:
+                          type: string
+                        notes:
+                          type: string
+                        status:
+                          type: string
+                        complete:
+                          type: boolean
+                        transactionType:
+                          type: string
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+      security:
+        - api_key: []
+    put:
+      tags:
+        - Transactions Module
+      summary: Modify information about a specific transaction
+      description: Modify information about a specific transaction.
+      operationId: modifyTransaction
+      parameters:
+        - name: verification_token
+          in: query
+          description: Verification token
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: newInfosToPut
+          in: query
+          description: New information to update for the transaction
+          required: true
+          schema:
+            type: integer
+        - name: id   # Ajoutez le paramètre "id" ici
+          in: path    # Définissez-le comme un paramètre de chemin
+          description: ID of the transaction to be modified
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Transaction modified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allTransactionsOfTheRightId:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        listOfTransactions:
+                          type: string
+                        category:
+                          type: string
+                        notes:
+                          type: string
+                        status:
+                          type: string
+                        complete:
+                          type: boolean
+                        transactionType:
+                          type: string
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+      security:
+        - api_key: []
 securityDefinitions:
   Bearer:
     type: apiKey
